@@ -372,7 +372,16 @@ async function load(k){
       const r = await fetch(`${fbUrl}/nid/${fk}.json`, {cache:'no-store'});
       if(!r.ok) throw new Error('http '+r.status);
       const d = await r.json();
-      return d;
+      if(d !== null) return d;
+      // Firebase vide → récupérer localStorage et migrer
+      try{
+        const local = JSON.parse(localStorage.getItem(k));
+        if(local !== null && local !== undefined){
+          fetch(`${fbUrl}/nid/${fk}.json`,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(local)}).catch(()=>{});
+          return local;
+        }
+      }catch{}
+      return null;
     }catch(e){ console.warn('Firebase load error',e); }
   }
   try{ return JSON.parse(localStorage.getItem(k)); }catch{ return null }

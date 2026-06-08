@@ -176,6 +176,28 @@ ul{list-style:none;display:flex;flex-direction:column;gap:6px}
 .sync-status.ok .dot{background:var(--acc)}.sync-status.local .dot{background:#f59e0b}
 .spin{display:inline-block;animation:spin .8s linear infinite}
 @keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+/* INVENTAIRE */
+.inv-grid{display:flex;flex-direction:column;gap:6px}
+.inv-item{background:var(--sf);border:1px solid var(--border);border-radius:11px;padding:10px 12px;display:flex;align-items:center;gap:10px;transition:.15s}
+.inv-item.low{background:#fef2f2;border-color:#fca5a5}
+.inv-item:hover{background:var(--al);border-color:var(--am)}
+.inv-item.low:hover{background:#fef2f2}
+.inv-name{flex:1;font-size:13.5px;font-weight:500}
+.inv-qty{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.inv-num{font-size:15px;font-weight:700;min-width:28px;text-align:center}
+.inv-item.low .inv-num{color:var(--red)}
+.qbtn{width:28px;height:28px;border-radius:7px;border:1.5px solid var(--border);background:#fff;cursor:pointer;font-size:16px;display:grid;place-items:center;transition:.15s;flex-shrink:0}
+.qbtn:hover{border-color:var(--acc);background:var(--al)}
+.inv-unit{font-size:11px;color:var(--ins);margin-left:2px}
+.low-badge{font-size:10px;background:#fef2f2;color:var(--red);border:1px solid #fca5a5;border-radius:20px;padding:2px 7px;white-space:nowrap}
+.cat-chip{font-size:10px;padding:2px 7px;border-radius:20px;white-space:nowrap;flex-shrink:0}
+.cat-alim{background:#ecfdf5;color:#065f46}
+.cat-maison{background:#eff6ff;color:#1e40af}
+.cat-hygiene{background:#f5f3ff;color:#5b21b6}
+.cat-autres{background:var(--sf);color:var(--ins)}
+/* TOAST */
+.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(20px);background:#111827;color:#fff;padding:10px 18px;border-radius:10px;font-size:13px;font-weight:500;z-index:100;opacity:0;transition:.3s;pointer-events:none;white-space:nowrap;max-width:90vw;text-overflow:ellipsis;overflow:hidden}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 </style>
 </head>
 <body>
@@ -271,6 +293,17 @@ ul{list-style:none;display:flex;flex-direction:column;gap:6px}
   <ul id="rappelList"></ul>
 </section>
 
+<!-- INVENTAIRE -->
+<section class="panel" id="p-inventaire">
+  <div class="ph"><h2>Inventaire</h2><p>Stock maison — alertes quand il faut racheter.</p></div>
+  <div id="invLowBanner" style="display:none;background:#fef2f2;border:1px solid #fca5a5;border-radius:9px;padding:9px 12px;font-size:12px;color:var(--red);margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;gap:8px">
+    <span id="invLowText">⚠️ Produits à racheter</span>
+    <button class="bo" style="color:var(--red);border-color:#fca5a5" onclick="addLowToCourses()">→ Courses</button>
+  </div>
+  <div class="sl"><span>Mes produits</span><button class="bo" onclick="openAddInv()">+ Ajouter</button></div>
+  <div class="inv-grid" id="invList"></div>
+</section>
+
 <!-- AGENDA -->
 <section class="panel" id="p-agenda">
   <div class="ph"><h2>Agenda</h2><p>Rendez-vous et événements à venir.</p></div>
@@ -285,6 +318,7 @@ ul{list-style:none;display:flex;flex-direction:column;gap:6px}
 <button class="tab" data-tab="planning" onclick="go('planning')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Planning</button>
 <button class="tab" data-tab="finances" onclick="go('finances')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20M6 15h4M14 15h4"/></svg>Finances</button>
 <button class="tab" data-tab="chien" onclick="go('chien')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M10 5.172C10 3.782 8.423 2.679 6.5 3c-2.823.47-4.113 6.006-4 7 .08.703 1.725 1.722 3.656 2.115M14 5.172C14 3.782 15.577 2.679 17.5 3c2.823.47 4.113 6.006-4 7-.08.703-1.725 1.722-3.656 2.115"/><path d="M8 14v.5A3.5 3.5 0 0 0 11.5 18v0a3.5 3.5 0 0 0 3.5-3.5V14"/><path d="M6.5 13.5c1.333.667 2.833.667 4.5 0s3.167.667 4.5 0"/></svg>Chien</button>
+<button class="tab" data-tab="inventaire" onclick="go('inventaire')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Stock</button>
 <button class="tab" data-tab="agenda" onclick="go('agenda')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Agenda</button>
 </nav>
 
@@ -313,6 +347,16 @@ ul{list-style:none;display:flex;flex-direction:column;gap:6px}
 <div class="modal-bg" id="addDepModal"><div class="modal"><h3>Dépense ponctuelle</h3><label>Intitulé</label><input id="depLbl" placeholder="Ex : Restaurant"/><label>Montant (€)</label><input id="depAmt" type="number" min="0" placeholder="0"/><label>Payé par</label><select id="depPayer"></select><button class="save" onclick="saveDep()">Ajouter</button></div></div>
 <div class="modal-bg" id="addExtModal"><div class="modal"><h3>Autre revenu</h3><label>Intitulé</label><input id="extLbl" placeholder="Ex : Prime, freelance…"/><label>Montant (€)</label><input id="extAmt" type="number" min="0" placeholder="0"/><button class="save" onclick="saveExt()">Ajouter</button></div></div>
 <div class="modal-bg" id="rdvModal"><div class="modal"><h3>Rendez-vous vétérinaire</h3><label>Date</label><input id="rdvDate" type="date"/><label>Type</label><select id="rdvType"><option value="veto">Vétérinaire</option><option value="vaccin">Vaccin</option><option value="toilettage">Toilettage</option><option value="vermifuge">Vermifuge</option><option value="parasitaire">Antiparasitaire</option><option value="autre">Autre</option></select><label>Note</label><input id="rdvNote" placeholder="Ex : Rappel vaccin"/><button class="save" onclick="saveRdv()">Ajouter</button></div></div>
+<div class="modal-bg" id="addInvModal"><div class="modal"><h3>Nouveau produit</h3>
+  <label>Nom</label><input id="invName" placeholder="Ex : Lait, Lessive, Dentifrice…"/>
+  <label>Quantité actuelle</label><input id="invQty" type="number" min="0" placeholder="0"/>
+  <label>Seuil minimum (alerte si ≤)</label><input id="invMin" type="number" min="0" placeholder="1"/>
+  <label>Unité (optionnel)</label><input id="invUnit" placeholder="L, kg, rouleaux…"/>
+  <label>Catégorie</label>
+  <select id="invCat"><option value="alim">🥦 Alimentaire</option><option value="maison">🧹 Maison</option><option value="hygiene">🧴 Hygiène</option><option value="autres">📦 Autres</option></select>
+  <button class="save" onclick="saveInv()">Ajouter</button>
+</div></div>
+
 <div class="modal-bg" id="rappelModal"><div class="modal"><h3>Rappel récurrent</h3><label>Intitulé</label><input id="rapLbl"/><label>Prochain rappel</label><input id="rapDate" type="date"/><label>Note</label><input id="rapNote"/><button class="save" onclick="saveRap()">Ajouter</button></div></div>
 <div class="modal-bg" id="installModal"><div class="modal"><h3>📱 Installer sur iPhone</h3><p style="color:var(--ins);font-size:13px;margin-bottom:12px">Pour avoir l'appli sur ton écran d'accueil :</p><div class="steps"><div class="step"><div class="snum">1</div><div class="stxt">Ouvre l'URL de l'appli dans <strong>Safari</strong> sur iPhone</div></div><div class="step"><div class="snum">2</div><div class="stxt">Appuie sur <strong>Partager ⬆️</strong> en bas de Safari</div></div><div class="step"><div class="snum">3</div><div class="stxt">Sélectionne <strong>« Sur l'écran d'accueil »</strong> → Ajouter</div></div><div class="step"><div class="snum">4</div><div class="stxt">Sur Android : menu Chrome ⋮ → <strong>« Ajouter à l'écran d'accueil »</strong></div></div></div><button class="save" onclick="document.getElementById('installModal').classList.remove('on')">OK !</button></div></div>
 
@@ -374,11 +418,11 @@ async function saveFbUrl(){
 function disconnectFb(){ fbUrl=''; localStorage.removeItem('_nid_fb'); document.getElementById('syncBtn').textContent='🔗'; document.getElementById('syncModal').classList.remove('on'); }
 
 /* Refresh auto quand on revient sur l'app */
-document.addEventListener('visibilitychange',()=>{ if(!document.hidden && fbUrl) loadAll().then(renderAll); });
+document.addEventListener('visibilitychange',()=>{ if(!document.hidden && fbUrl) loadAll().then(()=>{checkChanges();renderAll()}); });
 
 /* ── ÉTAT ── */
-const KEYS={names:'nid:names',courses:'nid:courses2',taches:'nid:taches',agenda:'nid:agenda',planning:'nid:planning',templates:'nid:templates',menus:'nid:menus2',finances:'nid:finances2',chien:'nid:chien'};
-let state={names:{a:'Moi',b:'Mon amour'},courses:[],taches:[],agenda:[],planning:{},templates:{a:{mode:'libre'},b:{mode:'libre'}},menus:{},finances:{salaire_a:0,salaire_b:0,charges:[],monthly:{}},chien:{nom:'Prénom du chien',rdv:[],rappels:[]}};
+const KEYS={names:'nid:names',courses:'nid:courses2',taches:'nid:taches',agenda:'nid:agenda',planning:'nid:planning',templates:'nid:templates',menus:'nid:menus2',finances:'nid:finances2',chien:'nid:chien',inventaire:'nid:inventaire'};
+let state={names:{a:'Moi',b:'Mon amour'},courses:[],taches:[],agenda:[],planning:{},templates:{a:{mode:'libre'},b:{mode:'libre'}},menus:{},finances:{salaire_a:0,salaire_b:0,charges:[],monthly:{}},chien:{nom:'Prénom du chien',rdv:[],rappels:[]},inventaire:[]};
 let wOff=0,mwOff=0,finMon=new Date().toISOString().slice(0,7);
 let _charts={};
 const PRESETS={matin:{type:'matin',label:'Matin',start:'06:00',end:'14:00'},aprem:{type:'aprem',label:'Après-midi',start:'14:00',end:'22:00'},nuit:{type:'nuit',label:'Nuit',start:'22:00',end:'06:00'},journee:{type:'journee',label:'Journée',start:'09:00',end:'17:00'},repos:{type:'repos',label:'Repos',start:'',end:''},perso:{type:'perso',label:'Perso',start:'',end:''}};
@@ -396,10 +440,66 @@ function mon(off){const d=new Date();d.setHours(0,0,0,0);d.setDate(d.getDate()-(
 function wdates(off){const m=mon(off);return Array.from({length:7},(_,i)=>{const d=new Date(m);d.setDate(m.getDate()+i);return d})}
 
 async function loadAll(){
-  const[n,c,t,a,pl,tpl,mn,fin,ch]=await Promise.all([load(KEYS.names),load(KEYS.courses),load(KEYS.taches),load(KEYS.agenda),load(KEYS.planning),load(KEYS.templates),load(KEYS.menus),load(KEYS.finances),load(KEYS.chien)]);
-  if(n)state.names=n;if(c)state.courses=c;if(t)state.taches=t;if(a)state.agenda=a;if(pl)state.planning=pl;if(tpl)state.templates=tpl;if(mn)state.menus=mn;if(fin)state.finances=fin;if(ch)state.chien=ch;
+  const[n,c,t,a,pl,tpl,mn,fin,ch,inv]=await Promise.all([load(KEYS.names),load(KEYS.courses),load(KEYS.taches),load(KEYS.agenda),load(KEYS.planning),load(KEYS.templates),load(KEYS.menus),load(KEYS.finances),load(KEYS.chien),load(KEYS.inventaire)]);
+  if(n)state.names=n;if(c)state.courses=c;if(t)state.taches=t;if(a)state.agenda=a;if(pl)state.planning=pl;if(tpl)state.templates=tpl;if(mn)state.menus=mn;if(fin)state.finances=fin;if(ch)state.chien=ch;if(inv)state.inventaire=inv;
 }
-function renderAll(){renderNames();renderCourses();renderTaches();renderPlanning();renderAgenda();renderMenuGrid();renderFinances();renderChien();}
+function renderAll(){renderNames();renderCourses();renderTaches();renderPlanning();renderAgenda();renderMenuGrid();renderFinances();renderChien();renderInventaire();}
+
+/* ── TOAST ── */
+function showToast(msg){const t=document.createElement('div');t.className='toast';t.textContent=msg;document.body.appendChild(t);setTimeout(()=>t.classList.add('show'),10);setTimeout(()=>{t.classList.remove('show');setTimeout(()=>t.remove(),300)},3000)}
+
+/* ── NOTIFICATIONS ── */
+let _prevTaches=[],_prevCourses=[];
+function requestNotifPermission(){if('Notification' in window && Notification.permission==='default')Notification.requestPermission()}
+function pushNotif(title,body){if('Notification' in window && Notification.permission==='granted' && document.hidden)new Notification(title,{body});showToast(title+' : '+body)}
+function checkChanges(){
+  const newT=state.taches.filter(t=>!_prevTaches.find(p=>p.id===t.id));
+  newT.forEach(t=>pushNotif('📋 Nouvelle tâche',`"${t.text}"`));
+  const doneT=state.taches.filter(t=>t.done&&_prevTaches.find(p=>p.id===t.id&&!p.done));
+  doneT.forEach(t=>pushNotif('✅ Tâche cochée',`"${t.text}"`));
+  const newC=state.courses.filter(c=>!_prevCourses.find(p=>p.id===c.id));
+  newC.forEach(c=>pushNotif('🛒 Courses',`"${c.text}" ajouté`));
+  _prevTaches=JSON.parse(JSON.stringify(state.taches));
+  _prevCourses=JSON.parse(JSON.stringify(state.courses));
+}
+
+/* ── INVENTAIRE ── */
+const CAT_LABELS={alim:'🥦 Alim',maison:'🧹 Maison',hygiene:'🧴 Hygiène',autres:'📦 Autres'};
+const CAT_CSS={alim:'cat-alim',maison:'cat-maison',hygiene:'cat-hygiene',autres:'cat-autres'};
+
+function openAddInv(){['invName','invQty','invMin','invUnit'].forEach(id=>document.getElementById(id).value='');document.getElementById('addInvModal').classList.add('on')}
+function saveInv(){
+  const name=document.getElementById('invName').value.trim();
+  if(!name)return;
+  state.inventaire.push({id:uid(),name,qty:parseFloat(document.getElementById('invQty').value)||0,min:parseFloat(document.getElementById('invMin').value)||1,unit:document.getElementById('invUnit').value.trim(),cat:document.getElementById('invCat').value});
+  document.getElementById('addInvModal').classList.remove('on');
+  renderInventaire();sv(KEYS.inventaire,state.inventaire);
+}
+function changeQty(id,delta){
+  const it=state.inventaire.find(i=>i.id===id);
+  if(!it)return;
+  it.qty=Math.max(0,it.qty+delta);
+  renderInventaire();sv(KEYS.inventaire,state.inventaire);
+}
+function delInv(id){state.inventaire=state.inventaire.filter(i=>i.id!==id);renderInventaire();sv(KEYS.inventaire,state.inventaire)}
+function addLowToCourses(){
+  const low=state.inventaire.filter(i=>i.qty<=i.min);
+  let added=0;
+  low.forEach(i=>{const txt=i.unit?`${i.name} (${i.unit})`:`${i.name}`;if(!state.courses.find(c=>c.text.toLowerCase()===txt.toLowerCase())){state.courses.unshift({id:uid(),text:txt,done:false});added++}});
+  sv(KEYS.courses,state.courses);renderCourses();
+  if(added)showToast(`✓ ${added} produit(s) ajouté(s) aux courses`);
+  go('cuisine');setTimeout(()=>setCV('courses'),100);
+}
+function renderInventaire(){
+  const low=state.inventaire.filter(i=>i.qty<=i.min);
+  const banner=document.getElementById('invLowBanner');
+  if(low.length){banner.style.display='flex';document.getElementById('invLowText').textContent=`⚠️ ${low.length} produit(s) à racheter`;}
+  else banner.style.display='none';
+  const el=document.getElementById('invList');
+  if(!state.inventaire.length){el.innerHTML=empt('🏠','Aucun produit. Ajoute du lait, du PQ, de la lessive…');return}
+  const sorted=[...state.inventaire].sort((a,b)=>(a.qty<=a.min?0:1)-(b.qty<=b.min?0:1));
+  el.innerHTML=sorted.map(i=>{const isLow=i.qty<=i.min;return`<div class="inv-item ${isLow?'low':''}"><div><div class="inv-name">${esc(i.name)}</div><span class="cat-chip ${CAT_CSS[i.cat]||'cat-autres'}">${CAT_LABELS[i.cat]||'📦 Autres'}</span></div>${isLow?'<span class="low-badge">⚠️ Racheter</span>':''}<div class="inv-qty"><button class="qbtn" onclick="changeQty('${i.id}',-1)">−</button><span class="inv-num">${i.qty}</span>${i.unit?`<span class="inv-unit">${esc(i.unit)}</span>`:''}<button class="qbtn" onclick="changeQty('${i.id}',1)">+</button></div><button class="del" onclick="delInv('${i.id}')">✕</button></div>`}).join('')
+}
 
 function go(tab){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));document.getElementById('p-'+tab).classList.add('active');document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===tab));if(tab==='finances')setTimeout(renderCharts,100)}
 function openInstall(){document.getElementById('installModal').classList.add('on')}
@@ -490,7 +590,10 @@ document.querySelectorAll('.modal-bg').forEach(m=>m.addEventListener('click',e=>
 if(fbUrl) document.getElementById('syncBtn').textContent='🟢';
 
 (async function init(){
+  requestNotifPermission();
   await loadAll();
+  _prevTaches=JSON.parse(JSON.stringify(state.taches));
+  _prevCourses=JSON.parse(JSON.stringify(state.courses));
   renderAll();
   if(!fbUrl){setTimeout(()=>{if(!localStorage.getItem('_sync_dismissed'))openSync()},1500)}
 })();

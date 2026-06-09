@@ -12,7 +12,7 @@
 <title>Notre Nid</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700&display=swap');
-:root{--bg:#fff;--sf:#f8fafc;--acc:#10b981;--al:#ecfdf5;--am:#6ee7b7;--border:#e5e7eb;--ink:#111827;--inm:#374151;--ins:#9ca3af;--red:#ef4444;--pa:#3b82f6;--pb:#ec4899}
+:root{--bg:#fff;--sf:#f8fafc;--acc:#10b981;--al:#ecfdf5;--am:#6ee7b7;--border:#e5e7eb;--ink:#111827;--inm:#374151;--ins:#9ca3af;--red:#ef4444;--pa:#111827;--pb:#065f46}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html{-webkit-text-size-adjust:100%}
 body{font-family:'Schibsted Grotesk',sans-serif;background:#fff;color:var(--ink);min-height:100vh;padding:0 0 80px;-webkit-font-smoothing:antialiased}
@@ -64,8 +64,8 @@ ul{list-style:none;display:flex;flex-direction:column;gap:6px}
 .cksq:hover{border-color:var(--acc)}.cksq.on{background:var(--acc);border-color:var(--acc)}
 .cksq.on svg{opacity:1}.cksq svg{width:11px;height:11px;opacity:0;stroke:#fff;stroke-width:2.8}
 .item .lb{flex:1;font-size:13.5px}.item.done .lb{color:var(--ins);text-decoration:line-through}
-.wp{font-size:10px;font-weight:700;padding:3px 9px;border-radius:20px;white-space:nowrap;background:#eff6ff;color:var(--pa)}
-.wp.b{background:#fdf2f8;color:var(--pb)}
+.wp{font-size:10px;font-weight:700;padding:3px 9px;border-radius:20px;white-space:nowrap;background:#f1f5f9;color:var(--pa)}
+.wp.b{background:#ecfdf5;color:var(--pb)}
 .del{border:none;background:none;cursor:pointer;color:var(--ins);font-size:15px;padding:4px;transition:.15s;min-width:24px}
 .del:hover{color:var(--red)}
 .empty{text-align:center;color:var(--ins);padding:32px 10px;font-size:13.5px}
@@ -85,7 +85,7 @@ ul{list-style:none;display:flex;flex-direction:column;gap:6px}
 .pdn{font-size:22px;font-weight:800;line-height:1.1;letter-spacing:-.03em}
 .plan-row.today .pdd{color:var(--acc)}.plan-row.today .pdn{color:var(--acc)}
 .plan-people{flex:1;display:grid;grid-template-columns:1fr 1fr}
-.plan-chip{border:none;cursor:pointer;padding:11px 10px;text-align:left;transition:.15s;font-family:inherit;background:transparent;display:flex;flex-direction:column;gap:0}
+.plan-chip{border:none;cursor:pointer;padding:13px 10px;text-align:left;transition:.15s;font-family:inherit;background:transparent;display:flex;flex-direction:column;gap:0}
 .plan-chip:first-child{border-right:1.5px solid var(--border)}
 .plan-chip:active{opacity:.75}
 .plan-chip .pc-who{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;display:block}
@@ -701,7 +701,7 @@ function renderTaches(){const el=document.getElementById('tacheList');const s=[.
 
 function changeWeek(n){wOff=n===0?0:wOff+n;renderPlanning()}
 function effShift(ds,who,wi){const ov=state.planning[ds]&&state.planning[ds][who];if(ov!==undefined)return ov;const tpl=state.templates[who];if(tpl&&tpl.mode==='fixe'){if((tpl.days||[]).includes(wi+1))return{type:tpl.type||'perso',label:tpl.label,start:tpl.start,end:tpl.end};return{...PRESETS.repos}}return null}
-function shiftChip(who,ds,wi,name){const sh=effShift(ds,who,wi);if(!sh)return `<button class="plan-chip who-${who} pc-empty" onclick="openShift('${ds}','${who}',${wi})"><span class="pc-who">${esc(name)}</span><span class="pc-ico">＋</span><span class="pc-lbl">Ajouter</span></button>`;const ico=SHIFT_ICO[sh.type]||'📅';const lbl=sh.type==='repos'?'Repos':esc(sh.label);const hrs=sh.start?`${sh.start} – ${sh.end}`:'';return `<button class="plan-chip who-${who} ps-${sh.type}" onclick="openShift('${ds}','${who}',${wi})"><span class="pc-who">${esc(name)}</span><span class="pc-ico">${ico}</span><span class="pc-lbl">${lbl}</span>${hrs?`<span class="pc-hrs">${hrs}</span>`:''}</button>`}
+function shiftChip(who,ds,wi,name){const sh=effShift(ds,who,wi);if(!sh)return `<button class="plan-chip who-${who} pc-empty" onclick="openShift('${ds}','${who}',${wi})"><span class="pc-who">${esc(name)}</span><span class="pc-lbl">Ajouter</span></button>`;const lbl=sh.type==='repos'?'Repos':esc(sh.label);const hrs=sh.start?`${sh.start} – ${sh.end}`:'';return `<button class="plan-chip who-${who} ps-${sh.type}" onclick="openShift('${ds}','${who}',${wi})"><span class="pc-who">${esc(name)}</span><span class="pc-lbl">${lbl}</span>${hrs?`<span class="pc-hrs">${hrs}</span>`:''}</button>`}
 function renderPlanning(){const dts=wdates(wOff);const m=dts[0],e=dts[6];let title=m.getMonth()===e.getMonth()?`${m.getDate()}–${e.getDate()} ${MFULL[m.getMonth()]}`:`${m.getDate()} ${MFULL[m.getMonth()].slice(0,4)}. – ${e.getDate()} ${MFULL[e.getMonth()].slice(0,4)}.`;document.getElementById('weekTitle').textContent=title.charAt(0).toUpperCase()+title.slice(1);const ts=iso(new Date());document.getElementById('planList').innerHTML=dts.map((d,i)=>{const ds=iso(d);return `<li class="plan-row ${ds===ts?'today':''}"><div class="plan-dl"><div class="pdd">${DSH[i]}</div><div class="pdn">${d.getDate()}</div></div><div class="plan-people">${shiftChip('a',ds,i,state.names.a)}${shiftChip('b',ds,i,state.names.b)}</div></li>`}).join('')}
 let sCtx={date:null,who:null,sel:null};
 function openShift(ds,who,wi){sCtx={date:ds,who,sel:null};const cur=effShift(ds,who,wi);document.getElementById('shiftTitle').textContent=DFULL[wi]+' '+parseInt(ds.slice(8));document.getElementById('shiftSub').textContent=who==='a'?state.names.a:state.names.b;const order=['matin','aprem','nuit','journee','repos','perso'];document.getElementById('presetGrid').innerHTML=order.map(k=>{const p=PRESETS[k];return `<button class="pr" data-k="${k}" onclick="selPr('${k}')"><div class="pn">${p.label}</div><div class="pt">${p.start?p.start+'–'+p.end:k==='perso'?'libre':'—'}</div></button>`}).join('');document.getElementById('customWrap').style.display='none';if(cur){selPr(cur.type);if(cur.type==='perso'){document.getElementById('customLbl').value=cur.label||'';document.getElementById('customStart').value=cur.start||'';document.getElementById('customEnd').value=cur.end||''}}document.getElementById('shiftModal').classList.add('on')}

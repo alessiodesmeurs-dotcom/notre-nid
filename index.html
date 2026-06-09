@@ -389,14 +389,13 @@ async function load(k){
 
 async function sv(k, v){
   const fk = k.replace(/:/g,'-');
+  try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){}
   if(fbUrl){
     try{
       const r = await fetch(`${fbUrl}/nid/${fk}.json`, {method:'PUT', headers:{'Content-Type':'application/json'}, body:JSON.stringify(v)});
       if(!r.ok) throw new Error('http '+r.status);
-      return;
     }catch(e){ console.warn('Firebase save error',e); }
   }
-  try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){}
 }
 
 /* Sync modal */
@@ -441,6 +440,7 @@ const DFULL=['Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi','Dimanche'];
 const DSH=['LUN','MAR','MER','JEU','VEN','SAM','DIM'];
 const RDVT={veto:'Vétérinaire',vaccin:'Vaccin',toilettage:'Toilettage',vermifuge:'Vermifuge',parasitaire:'Antiparasitaire',autre:'Autre'};
 const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+function parseAmt(s){return parseFloat(String(s||'').replace(',','.'))||0}
 function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
 function fE(n){return Math.abs(parseFloat(n)||0).toLocaleString('fr-FR',{minimumFractionDigits:0,maximumFractionDigits:0})+' €'}
 function empt(e,t){return `<div class="empty"><span class="big">${e}</span>${t}</div>`}
@@ -557,20 +557,20 @@ function changeMonth(n){const[y,mo]=finMon.split('-').map(Number);const d=new Da
 function getMD(){if(!state.finances.monthly[finMon])state.finances.monthly[finMon]={extra_revenus:[],paid:[],depenses:[]};return state.finances.monthly[finMon]}
 function calcFin(){const md=getMD();const revs=(+state.finances.salaire_a||0)+(+state.finances.salaire_b||0)+(md.extra_revenus||[]).reduce((s,e)=>s+(+e.montant||0),0);const charges=state.finances.charges.reduce((s,c)=>s+(+c.montant||0),0);const deps=(md.depenses||[]).reduce((s,d)=>s+(+d.montant||0),0);const paid=(md.paid||[]);const paidAmt=state.finances.charges.filter(c=>paid.includes(c.id)).reduce((s,c)=>s+(+c.montant||0),0);return{revs,charges,deps,out:charges+deps,reste:revs-charges-deps,paidAmt,paid}}
 function renderFinances(){const[y,mo]=finMon.split('-').map(Number);document.getElementById('monthTitle').textContent=`${MFULL[mo-1].charAt(0).toUpperCase()+MFULL[mo-1].slice(1)} ${y}`;const{revs,charges,deps,out,reste,paidAmt}=calcFin();document.getElementById('finRev').textContent=fE(revs);document.getElementById('finOut').textContent=fE(out);const re=document.getElementById('finReste');re.textContent=(reste<0?'− ':'')+fE(Math.abs(reste));re.className='fa '+(reste>=0?'pos':'neg');document.getElementById('salA').value=state.finances.salaire_a||'';document.getElementById('salB').value=state.finances.salaire_b||'';const pct=charges>0?Math.round(paidAmt/charges*100):0;document.getElementById('chgProg').textContent=`${pct}% prélevé`;document.getElementById('chgBar').style.width=pct+'%';renderExtRev();renderChgList();renderDepList();renderHist();renderCharts()}
-function saveSal(){state.finances.salaire_a=parseFloat(document.getElementById('salA').value)||0;state.finances.salaire_b=parseFloat(document.getElementById('salB').value)||0;renderFinances();sv(KEYS.finances,state.finances)}
+function saveSal(){state.finances.salaire_a=parseAmt(document.getElementById('salA').value);state.finances.salaire_b=parseAmt(document.getElementById('salB').value);renderFinances();sv(KEYS.finances,state.finances)}
 function renderExtRev(){const md=getMD();const el=document.getElementById('extRevList');const l=md.extra_revenus||[];if(!l.length){el.innerHTML=empt('+','Aucun revenu supplémentaire');return}el.innerHTML=l.map(e=>`<li class="item"><span class="lb">${esc(e.label)}</span><span style="font-weight:600;color:var(--acc);margin-right:6px">${fE(e.montant)}</span><button class="del" onclick="delExtRev('${e.id}')">✕</button></li>`).join('')}
 function renderChgList(){const md=getMD();const paid=md.paid||[];const el=document.getElementById('chgListEl');if(!state.finances.charges.length){el.innerHTML=empt('📋','Ajoutez vos charges : Loyer, EDF, Internet…');return}el.innerHTML=state.finances.charges.map(c=>{const p=paid.includes(c.id);return `<div class="crow"><div class="cksq ${p?'on':''}" onclick="togglePaid('${c.id}')"><svg viewBox="0 0 24 24" fill="none"><path d="m5 13 4 4L19 7"/></svg></div><span class="lb ${p?'done':''}">${esc(c.label)}</span><span class="amt">${fE(c.montant)}</span><button class="del" onclick="delChg('${c.id}')">✕</button></div>`}).join('')}
 function renderDepList(){const md=getMD();const el=document.getElementById('depListEl');const l=md.depenses||[];if(!l.length){el.innerHTML=empt('💳','Aucune dépense ponctuelle ce mois');return}el.innerHTML=l.map(d=>`<li class="item"><span class="lb">${esc(d.label)}</span><span class="wp ${d.payer==='b'?'b':''}">${esc(d.payer==='a'?state.names.a:state.names.b)}</span><span style="font-weight:600;margin-right:6px">${fE(d.montant)}</span><button class="del" onclick="delDep('${d.id}')">✕</button></li>`).join('')}
 function renderHist(){const keys=Object.keys(state.finances.monthly).sort();const el=document.getElementById('histGrid');if(!keys.length){el.innerHTML='<div style="color:var(--ins);font-size:13px">L\'historique apparaîtra ici au fil des mois.</div>';return}el.innerHTML=keys.slice(-6).reverse().map(mk=>{const[y,mo]=mk.split('-').map(Number);const md=state.finances.monthly[mk];const r=(+state.finances.salaire_a||0)+(+state.finances.salaire_b||0)+(md.extra_revenus||[]).reduce((s,e)=>s+(+e.montant||0),0)-(state.finances.charges.reduce((s,c)=>s+(+c.montant||0),0)+(md.depenses||[]).reduce((s,d)=>s+(+d.montant||0),0));return `<div class="hcard" onclick="finMon='${mk}';renderFinances()"><div class="hm">${MFULL[mo-1].slice(0,4)}. ${y}</div><div class="hr ${r>=0?'pos':'neg'}">${r<0?'−':'+'}${fE(Math.abs(r))}</div></div>`}).join('')}
 function togglePaid(id){const md=getMD();if(!md.paid)md.paid=[];const i=md.paid.indexOf(id);if(i>-1)md.paid.splice(i,1);else md.paid.push(id);renderFinances();sv(KEYS.finances,state.finances)}
 function openAddChg(){document.getElementById('chgLbl').value='';document.getElementById('chgAmt').value='';document.getElementById('addChgModal').classList.add('on')}
-function saveChg(){const l=document.getElementById('chgLbl').value.trim();const m=parseFloat(document.getElementById('chgAmt').value)||0;if(!l)return;state.finances.charges.push({id:uid(),label:l,montant:m});document.getElementById('addChgModal').classList.remove('on');renderFinances();sv(KEYS.finances,state.finances)}
+function saveChg(){const l=document.getElementById('chgLbl').value.trim();const m=parseAmt(document.getElementById('chgAmt').value);if(!l)return;state.finances.charges.push({id:uid(),label:l,montant:m});document.getElementById('addChgModal').classList.remove('on');renderFinances();sv(KEYS.finances,state.finances)}
 function delChg(id){state.finances.charges=state.finances.charges.filter(c=>c.id!==id);renderFinances();sv(KEYS.finances,state.finances)}
 function openAddDep(){document.getElementById('depLbl').value='';document.getElementById('depAmt').value='';document.getElementById('addDepModal').classList.add('on')}
-function saveDep(){const l=document.getElementById('depLbl').value.trim();const m=parseFloat(document.getElementById('depAmt').value)||0;const p=document.getElementById('depPayer').value;if(!l)return;getMD().depenses.unshift({id:uid(),label:l,montant:m,payer:p});document.getElementById('addDepModal').classList.remove('on');renderFinances();sv(KEYS.finances,state.finances)}
+function saveDep(){const l=document.getElementById('depLbl').value.trim();const m=parseAmt(document.getElementById('depAmt').value);const p=document.getElementById('depPayer').value;if(!l)return;getMD().depenses.unshift({id:uid(),label:l,montant:m,payer:p});document.getElementById('addDepModal').classList.remove('on');renderFinances();sv(KEYS.finances,state.finances)}
 function delDep(id){getMD().depenses=(getMD().depenses||[]).filter(d=>d.id!==id);renderFinances();sv(KEYS.finances,state.finances)}
 function openExtRev(){document.getElementById('extLbl').value='';document.getElementById('extAmt').value='';document.getElementById('addExtModal').classList.add('on')}
-function saveExt(){const l=document.getElementById('extLbl').value.trim();const m=parseFloat(document.getElementById('extAmt').value)||0;if(!l)return;getMD().extra_revenus.unshift({id:uid(),label:l,montant:m});document.getElementById('addExtModal').classList.remove('on');renderFinances();sv(KEYS.finances,state.finances)}
+function saveExt(){const l=document.getElementById('extLbl').value.trim();const m=parseAmt(document.getElementById('extAmt').value);if(!l)return;getMD().extra_revenus.unshift({id:uid(),label:l,montant:m});document.getElementById('addExtModal').classList.remove('on');renderFinances();sv(KEYS.finances,state.finances)}
 function delExtRev(id){getMD().extra_revenus=(getMD().extra_revenus||[]).filter(e=>e.id!==id);renderFinances();sv(KEYS.finances,state.finances)}
 
 let activeChart='donut';

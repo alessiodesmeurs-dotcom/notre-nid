@@ -8,6 +8,7 @@
 <meta name="apple-mobile-web-app-title" content="Notre Nid"/>
 <meta name="theme-color" content="#10b981"/>
 <link rel="manifest" href="/manifest.json"/>
+<link rel="apple-touch-icon" href="/icon.svg"/>
 <title>Notre Nid</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700&display=swap');
@@ -426,7 +427,7 @@ async function saveFbUrl(){
 function disconnectFb(){ fbUrl=''; localStorage.removeItem('_nid_fb'); document.getElementById('syncBtn').textContent='🔗'; document.getElementById('syncModal').classList.remove('on'); }
 
 /* Refresh auto quand on revient sur l'app */
-document.addEventListener('visibilitychange',()=>{ if(!document.hidden && fbUrl) loadAll().then(()=>{checkChanges();renderAll()}); });
+document.addEventListener('visibilitychange',()=>{ if(!document.hidden && fbUrl) loadAll().then(()=>{checkChanges();renderAll();checkImportant()}); });
 
 /* ── ÉTAT ── */
 const KEYS={names:'nid:names',courses:'nid:courses2',taches:'nid:taches',agenda:'nid:agenda',planning:'nid:planning',templates:'nid:templates',menus:'nid:menus2',finances:'nid:finances2',chien:'nid:chien',inventaire:'nid:inventaire'};
@@ -452,7 +453,8 @@ async function loadAll(){
   const[n,c,t,a,pl,tpl,mn,fin,ch,inv]=await Promise.all([load(KEYS.names),load(KEYS.courses),load(KEYS.taches),load(KEYS.agenda),load(KEYS.planning),load(KEYS.templates),load(KEYS.menus),load(KEYS.finances),load(KEYS.chien),load(KEYS.inventaire)]);
   if(n)state.names=n;if(c)state.courses=c;if(t)state.taches=t;if(a)state.agenda=a;if(pl)state.planning=pl;if(tpl)state.templates=tpl;if(mn)state.menus=mn;
   if(fin){state.finances=fin;if(!Array.isArray(state.finances.charges))state.finances.charges=[];if(!state.finances.monthly)state.finances.monthly={};}
-  if(ch)state.chien=ch;if(inv)state.inventaire=inv;
+  if(ch){state.chien=ch;if(!Array.isArray(state.chien.rdv))state.chien.rdv=[];if(!Array.isArray(state.chien.rappels))state.chien.rappels=[];}
+  if(inv)state.inventaire=inv;
 }
 function renderAll(){renderNames();renderCourses();renderTaches();renderPlanning();renderAgenda();renderMenuGrid();renderFinances();renderChien();renderInventaire();}
 
@@ -462,7 +464,51 @@ function showToast(msg){const t=document.createElement('div');t.className='toast
 /* ── NOTIFICATIONS ── */
 let _prevTaches=[],_prevCourses=[];
 function requestNotifPermission(){if('Notification' in window && Notification.permission==='default')Notification.requestPermission()}
-function pushNotif(title,body){if('Notification' in window && Notification.permission==='granted' && document.hidden)new Notification(title,{body});showToast(title+' : '+body)}
+function pushNotif(title,body){
+  const msg=body?title+' : '+body:title;
+  if('Notification' in window && Notification.permission==='granted' && document.hidden)new Notification(title,{body});
+  showToast(msg);
+}
+
+let _notifTs=0;
+function checkImportant(){
+  if(Date.now()-_notifTs<3600000)return;
+  _notifTs=Date.now();
+  const now=new Date();now.setHours(0,0,0,0);
+  const tod=now.getTime(),tom=tod+86400000;
+  const msgs=[];
+
+  /* Agenda : événements aujourd'hui et demain */
+  (state.agenda||[]).forEach(ev=>{
+    const dt=new Date(ev.date+'T00:00:00').getTime();
+    if(dt===tod)msgs.push({t:'📅 Aujourd\'hui',b:ev.title});
+    else if(dt===tom)msgs.push({t:'📅 Demain',b:ev.title});
+  });
+
+  /* Inventaire : articles en stock bas */
+  const low=(state.inventaire||[]).filter(i=>i.qty<=i.min);
+  if(low.length===1)msgs.push({t:'⚠️ Stock bas',b:low[0].name+' à racheter'});
+  else if(low.length>1)msgs.push({t:'⚠️ Stock bas',b:low.length+' articles à racheter'});
+
+  /* Chien : RDV aujourd'hui ou demain */
+  (state.chien.rdv||[]).filter(r=>!r.done).forEach(r=>{
+    const dt=new Date(r.date+'T00:00:00').getTime();
+    if(dt===tod)msgs.push({t:'🐕 RDV aujourd\'hui',b:r.note||'Vétérinaire'});
+    else if(dt===tom)msgs.push({t:'🐕 RDV demain',b:r.note||'Vétérinaire'});
+  });
+
+  /* Chien : rappels dans les 3 prochains jours */
+  (state.chien.rappels||[]).forEach(r=>{
+    if(!r.next_date)return;
+    const dt=new Date(r.next_date+'T00:00:00').getTime();
+    const diff=Math.round((dt-tod)/86400000);
+    if(diff<=0)msgs.push({t:'🐕 Rappel en retard',b:r.label});
+    else if(diff<=3)msgs.push({t:'🐕 Rappel dans '+diff+' j',b:r.label});
+  });
+
+  /* Affichage décalé pour éviter les toasts superposés */
+  msgs.forEach((m,i)=>setTimeout(()=>pushNotif(m.t,m.b),i*3600));
+}
 function checkChanges(){
   const newT=state.taches.filter(t=>!_prevTaches.find(p=>p.id===t.id));
   newT.forEach(t=>pushNotif('📋 Nouvelle tâche',`"${t.text}"`));
@@ -614,6 +660,7 @@ if(fbUrl) document.getElementById('syncBtn').textContent='🟢';
   _prevTaches=JSON.parse(JSON.stringify(state.taches));
   _prevCourses=JSON.parse(JSON.stringify(state.courses));
   renderAll();
+  checkImportant();
   if(!fbUrl){setTimeout(()=>{if(!localStorage.getItem('_sync_dismissed'))openSync()},1500)}
 })();
 </script>

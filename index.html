@@ -450,7 +450,9 @@ function wdates(off){const m=mon(off);return Array.from({length:7},(_,i)=>{const
 
 async function loadAll(){
   const[n,c,t,a,pl,tpl,mn,fin,ch,inv]=await Promise.all([load(KEYS.names),load(KEYS.courses),load(KEYS.taches),load(KEYS.agenda),load(KEYS.planning),load(KEYS.templates),load(KEYS.menus),load(KEYS.finances),load(KEYS.chien),load(KEYS.inventaire)]);
-  if(n)state.names=n;if(c)state.courses=c;if(t)state.taches=t;if(a)state.agenda=a;if(pl)state.planning=pl;if(tpl)state.templates=tpl;if(mn)state.menus=mn;if(fin)state.finances=fin;if(ch)state.chien=ch;if(inv)state.inventaire=inv;
+  if(n)state.names=n;if(c)state.courses=c;if(t)state.taches=t;if(a)state.agenda=a;if(pl)state.planning=pl;if(tpl)state.templates=tpl;if(mn)state.menus=mn;
+  if(fin){state.finances=fin;if(!Array.isArray(state.finances.charges))state.finances.charges=[];if(!state.finances.monthly)state.finances.monthly={};}
+  if(ch)state.chien=ch;if(inv)state.inventaire=inv;
 }
 function renderAll(){renderNames();renderCourses();renderTaches();renderPlanning();renderAgenda();renderMenuGrid();renderFinances();renderChien();renderInventaire();}
 
@@ -554,8 +556,16 @@ function delEvent(id){state.agenda=state.agenda.filter(e=>e.id!==id);renderAgend
 function renderAgenda(){const el=document.getElementById('evList');const today=new Date();today.setHours(0,0,0,0);const s=[...state.agenda].sort((a,b)=>a.date.localeCompare(b.date));if(!s.length){el.innerHTML=empt('📅','Pas d\'événement prévu.');return}el.innerHTML=s.map(e=>{const dt=new Date(e.date+'T00:00:00');const diff=Math.round((dt-today)/86400000);const when=diff===0?"aujourd'hui":diff===1?'demain':diff<0?`il y a ${-diff} j`:`dans ${diff} j`;return `<li class="item"><div class="evd"><div class="d">${dt.getDate()}</div><div class="m">${MSHORT[dt.getMonth()]}</div></div><div class="lb"><div>${esc(e.title)}</div><div class="evc">${when}</div></div><button class="del" onclick="delEvent('${e.id}')">✕</button></li>`}).join('')}
 
 function changeMonth(n){const[y,mo]=finMon.split('-').map(Number);const d=new Date(y,mo-1+n,1);finMon=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;renderFinances()}
-function getMD(){if(!state.finances.monthly[finMon])state.finances.monthly[finMon]={extra_revenus:[],paid:[],depenses:[]};return state.finances.monthly[finMon]}
-function calcFin(){const md=getMD();const revs=(+state.finances.salaire_a||0)+(+state.finances.salaire_b||0)+(md.extra_revenus||[]).reduce((s,e)=>s+(+e.montant||0),0);const charges=state.finances.charges.reduce((s,c)=>s+(+c.montant||0),0);const deps=(md.depenses||[]).reduce((s,d)=>s+(+d.montant||0),0);const paid=(md.paid||[]);const paidAmt=state.finances.charges.filter(c=>paid.includes(c.id)).reduce((s,c)=>s+(+c.montant||0),0);return{revs,charges,deps,out:charges+deps,reste:revs-charges-deps,paidAmt,paid}}
+function getMD(){
+  if(!state.finances.monthly)state.finances.monthly={};
+  if(!state.finances.monthly[finMon])state.finances.monthly[finMon]={};
+  const m=state.finances.monthly[finMon];
+  if(!Array.isArray(m.extra_revenus))m.extra_revenus=[];
+  if(!Array.isArray(m.paid))m.paid=[];
+  if(!Array.isArray(m.depenses))m.depenses=[];
+  return m;
+}
+function calcFin(){const md=getMD();const revs=(+state.finances.salaire_a||0)+(+state.finances.salaire_b||0)+(md.extra_revenus||[]).reduce((s,e)=>s+(+e.montant||0),0);const ch=Array.isArray(state.finances.charges)?state.finances.charges:[];const charges=ch.reduce((s,c)=>s+(+c.montant||0),0);const deps=(md.depenses||[]).reduce((s,d)=>s+(+d.montant||0),0);const paid=(md.paid||[]);const paidAmt=ch.filter(c=>paid.includes(c.id)).reduce((s,c)=>s+(+c.montant||0),0);return{revs,charges,deps,out:charges+deps,reste:revs-charges-deps,paidAmt,paid}}
 function renderFinances(){const[y,mo]=finMon.split('-').map(Number);document.getElementById('monthTitle').textContent=`${MFULL[mo-1].charAt(0).toUpperCase()+MFULL[mo-1].slice(1)} ${y}`;const{revs,charges,deps,out,reste,paidAmt}=calcFin();document.getElementById('finRev').textContent=fE(revs);document.getElementById('finOut').textContent=fE(out);const re=document.getElementById('finReste');re.textContent=(reste<0?'− ':'')+fE(Math.abs(reste));re.className='fa '+(reste>=0?'pos':'neg');document.getElementById('salA').value=state.finances.salaire_a||'';document.getElementById('salB').value=state.finances.salaire_b||'';const pct=charges>0?Math.round(paidAmt/charges*100):0;document.getElementById('chgProg').textContent=`${pct}% prélevé`;document.getElementById('chgBar').style.width=pct+'%';renderExtRev();renderChgList();renderDepList();renderHist();renderCharts()}
 function saveSal(){state.finances.salaire_a=parseAmt(document.getElementById('salA').value);state.finances.salaire_b=parseAmt(document.getElementById('salB').value);renderFinances();sv(KEYS.finances,state.finances)}
 function renderExtRev(){const md=getMD();const el=document.getElementById('extRevList');const l=md.extra_revenus||[];if(!l.length){el.innerHTML=empt('+','Aucun revenu supplémentaire');return}el.innerHTML=l.map(e=>`<li class="item"><span class="lb">${esc(e.label)}</span><span style="font-weight:600;color:var(--acc);margin-right:6px">${fE(e.montant)}</span><button class="del" onclick="delExtRev('${e.id}')">✕</button></li>`).join('')}

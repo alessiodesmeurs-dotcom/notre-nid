@@ -1,10 +1,11 @@
 {
   "name": "notre-nid",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "scripts": {
-    "start": "npx serve . -l $PORT --no-clipboard"
+    "start": "node server.js"
   },
   "dependencies": {
-    "serve": "^14.2.3"
+    "express": "^4.18.2",
+    "web-push": "^3.6.6"
   }
 }

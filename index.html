@@ -31,10 +31,10 @@ header{padding:20px 0 12px;display:flex;align-items:center;justify-content:space
 .sync-bar.err{background:#fef2f2;border-color:#fca5a5;color:var(--red)}
 .sync-dot{width:8px;height:8px;min-width:8px;border-radius:50%;background:var(--acc)}
 .sync-bar.err .sync-dot{background:var(--red)}
-nav{position:fixed;bottom:0;left:0;right:0;z-index:20;background:#fff;border-top:1px solid var(--border);display:flex;justify-content:center;padding:6px 2px calc(6px + env(safe-area-inset-bottom))}
-.tab{flex:1;max-width:90px;border:none;background:none;cursor:pointer;padding:7px 1px 5px;border-radius:10px;color:var(--ins);display:flex;flex-direction:column;align-items:center;gap:2px;font-family:inherit;font-size:9px;font-weight:600;transition:.15s;min-height:44px;justify-content:center}
-.tab svg{width:19px;height:19px;stroke-width:1.8}
-.tab:hover,.tab.active{color:var(--acc);background:var(--al)}
+nav{position:fixed;bottom:0;left:0;right:0;z-index:20;background:#fff;border-top:1px solid var(--border);display:flex;justify-content:space-around;padding:6px 2px calc(8px + env(safe-area-inset-bottom))}
+.tab{flex:1;max-width:60px;border:none;background:none;cursor:pointer;padding:6px 4px;border-radius:14px;color:var(--ins);display:flex;flex-direction:column;align-items:center;gap:2px;font-family:inherit;font-size:8.5px;font-weight:600;transition:.15s;min-height:48px;justify-content:center}
+.tab svg{width:20px;height:20px;stroke-width:1.8;transition:.15s}
+.tab:hover{color:var(--inm)}.tab.active{color:var(--acc);background:var(--al)}
 .panel{display:none;animation:rise .3s ease}.panel.active{display:block}
 @keyframes rise{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
 .ph{margin-bottom:14px}.ph h2{font-weight:600;font-size:20px;letter-spacing:-.02em}
@@ -117,16 +117,21 @@ ul{list-style:none;display:flex;flex-direction:column;gap:6px}
 .mslot .ml{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--ins);display:block;margin-bottom:3px}
 .mslot .mv{font-size:13px;font-weight:500;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .mslot.has .mv{color:var(--ink)}.mslot.empty .mv{color:var(--ins)}
-.fin-card{background:var(--sf);border:1px solid var(--border);border-radius:13px;padding:16px;margin-bottom:14px}
-.fin-row{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:11px}
-.fb{background:#fff;border:1px solid var(--border);border-radius:10px;padding:11px}
-.fb.g{border-color:var(--am)}.fb.r{border-color:#fca5a5}
 .fl{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--ins);margin-bottom:3px}
 .fa{font-size:19px;font-weight:700;letter-spacing:-.01em}
-.fb.g .fa{color:var(--acc)}.fb.r .fa{color:var(--red)}
-.freste{text-align:center;padding-top:11px;border-top:1px solid var(--border)}
-.freste .fl{margin-bottom:3px}.freste .fa{font-size:24px}
-.freste .fa.pos{color:var(--acc)}.freste .fa.neg{color:var(--red)}
+.fa.pos{color:var(--acc)}.fa.neg{color:var(--red)}
+.fin-kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.fin-kpi{border-radius:18px;padding:18px 16px;display:flex;flex-direction:column}
+.kpi-rev{background:linear-gradient(145deg,#ecfdf5,#d1fae5)}
+.kpi-out{background:linear-gradient(145deg,#fef2f2,#fee2e2)}
+.kpi-ico{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:10px;background:rgba(255,255,255,.55)}
+.kpi-rev .kpi-ico svg{stroke:#065f46}.kpi-out .kpi-ico svg{stroke:#ef4444}
+.kpi-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--ins);margin-bottom:4px}
+.kpi-val{font-size:22px;font-weight:800;letter-spacing:-.02em}
+.kpi-rev .kpi-val{color:#065f46}.kpi-out .kpi-val{color:var(--red)}
+.fin-kpi-reste{border-radius:18px;padding:18px 16px;background:linear-gradient(145deg,#f8fafc,#f1f5f9);border:1.5px solid var(--border);margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 12px rgba(0,0,0,.04)}
+.fin-kpi-reste .kpi-lbl{margin-bottom:0}
+.fin-kpi-reste .fa{font-size:26px;font-weight:800;letter-spacing:-.02em}
 .pbar{background:var(--border);border-radius:7px;height:4px;overflow:hidden;margin:4px 0 10px}
 .pf{height:100%;background:var(--acc);border-radius:7px;transition:.4s}
 .srow{display:flex;align-items:center;gap:10px;margin-bottom:8px}
@@ -241,6 +246,31 @@ ul{list-style:none;display:flex;flex-direction:column;gap:6px}
 .scan-item.sel{background:var(--al);border-color:var(--acc)}
 .scan-item input[type=text]{flex:1;border:none;background:none;padding:0;font-size:13.5px;min-width:0;color:var(--ink);font-family:inherit}
 .scan-item input[type=checkbox]{flex-shrink:0;width:18px;height:18px;accent-color:var(--acc)}
+/* ACCUEIL */
+.acc-header{padding:6px 0 18px}
+.acc-avatars{display:flex;margin-bottom:14px}
+.acc-av{width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.1)}
+.av-a{background:#f1f5f9;color:var(--pa)}.av-b{background:#ecfdf5;color:var(--pb);margin-left:-14px}
+.acc-greeting{font-size:23px;font-weight:800;letter-spacing:-.03em;line-height:1.25}
+.acc-date{font-size:12px;color:var(--ins);margin-top:5px;text-transform:capitalize}
+.acc-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0 20px}
+.acc-card{border-radius:18px;padding:18px 16px;display:flex;flex-direction:column;transition:.1s;cursor:pointer}
+.acc-card:active{opacity:.85;transform:scale(.98)}
+.acc-card.full{grid-column:span 2}
+.acc-card-ico{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;margin-bottom:12px;background:rgba(255,255,255,.55)}
+.acc-card-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px}
+.acc-card-val{font-size:22px;font-weight:800;letter-spacing:-.02em;margin-top:auto}
+.acc-card-sub{font-size:11.5px;margin-top:4px;opacity:.75}
+.acc-blue{background:linear-gradient(145deg,#eff6ff,#dbeafe)}.acc-blue .acc-card-lbl{color:#3b82f6}.acc-blue .acc-card-val{color:#1d4ed8}.acc-blue .acc-card-sub{color:#60a5fa}
+.acc-ink{background:linear-gradient(145deg,#f8fafc,#f1f5f9)}.acc-ink .acc-card-lbl{color:var(--ins)}.acc-ink .acc-card-val{color:var(--ink)}.acc-ink .acc-card-sub{color:var(--ins)}
+.acc-green{background:linear-gradient(145deg,#ecfdf5,#d1fae5)}.acc-green .acc-card-lbl{color:#065f46}.acc-green .acc-card-val{color:#065f46}.acc-green .acc-card-sub{color:#10b981}
+.acc-red{background:linear-gradient(145deg,#fef2f2,#fee2e2)}.acc-red .acc-card-lbl{color:#991b1b}.acc-red .acc-card-val{color:#ef4444}.acc-red .acc-card-sub{color:#fca5a5}
+.acc-sec-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--ins);margin-bottom:12px}
+.acc-plan-card{background:#fff;border:1px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.05);margin-bottom:16px}
+.acc-plan-row{display:flex;align-items:center;justify-content:space-between;padding:13px 16px;gap:10px}
+.acc-plan-row+.acc-plan-row{border-top:1px solid var(--border)}
+.acc-plan-who{font-size:12px;font-weight:700;min-width:70px}
+.acc-plan-sh{font-size:13px;font-weight:600;color:var(--ink);text-align:right}
 /* PRINT (export PDF via impression) */
 @media print{
   nav,.hbtn,.ba,.bo,.del,.ck,.cksq,.modal-bg,.sync-bar,.pbar,.seg,.sl button,
@@ -266,8 +296,41 @@ ul{list-style:none;display:flex;flex-direction:column;gap:6px}
   </div>
 </header>
 
+<!-- ACCUEIL -->
+<section class="panel active" id="p-accueil">
+  <div class="acc-header">
+    <div class="acc-avatars"><div class="acc-av av-a" id="avA">A</div><div class="acc-av av-b" id="avB">N</div></div>
+    <div class="acc-greeting" id="accGreeting">Bonjour</div>
+    <div class="acc-date" id="accDate"></div>
+  </div>
+  <div class="acc-grid">
+    <div class="acc-card acc-blue" onclick="go('agenda')">
+      <div class="acc-card-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div>
+      <div class="acc-card-lbl">Prochain événement</div>
+      <div class="acc-card-val" id="accEventVal">—</div>
+      <div class="acc-card-sub" id="accEventSub"></div>
+    </div>
+    <div class="acc-card acc-ink" onclick="go('taches')">
+      <div class="acc-card-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 11 3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
+      <div class="acc-card-lbl">Tâches</div>
+      <div class="acc-card-val" id="accTachesVal">0</div>
+      <div class="acc-card-sub" id="accTachesSub">en attente</div>
+    </div>
+    <div class="acc-card acc-green full" id="accResteCard" onclick="go('finances')">
+      <div class="acc-card-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20M6 15h4M14 15h4"/></svg></div>
+      <div class="acc-card-lbl">Reste ce mois</div>
+      <div class="acc-card-val" id="accResteVal">0 €</div>
+      <div class="acc-card-sub" id="accResteSub">budget disponible</div>
+    </div>
+  </div>
+  <div class="acc-sec-title">Aujourd'hui</div>
+  <div class="acc-plan-card" id="accPlanCard">
+    <div class="acc-plan-row"><span style="color:var(--ins);font-size:13px">Chargement…</span></div>
+  </div>
+</section>
+
 <!-- CUISINE -->
-<section class="panel active" id="p-cuisine">
+<section class="panel" id="p-cuisine">
   <div class="ph"><h2>Cuisine</h2><p>Menus du soir et liste de courses.</p></div>
   <div class="seg"><button class="sel" onclick="setCV('menus')">🍽 Menus</button><button onclick="setCV('courses')">🛒 Courses</button></div>
   <div class="cv active" id="cv-menus">
@@ -303,12 +366,21 @@ ul{list-style:none;display:flex;flex-direction:column;gap:6px}
 <section class="panel" id="p-finances">
   <div class="ph"><h2>Finances</h2><p>Revenus, charges et analyses.</p></div>
   <div class="mbar"><button class="navw" onclick="changeMonth(-1)">‹</button><div class="mlbl" id="monthTitle">Juin 2026</div><button class="navw" onclick="changeMonth(1)">›</button></div>
-  <div class="fin-card">
-    <div class="fin-row">
-      <div class="fb g"><div class="fl">Revenus</div><div class="fa" id="finRev">0 €</div></div>
-      <div class="fb r"><div class="fl">Sorties</div><div class="fa" id="finOut">0 €</div></div>
+  <div class="fin-kpi-grid">
+    <div class="fin-kpi kpi-rev">
+      <div class="kpi-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></div>
+      <div class="kpi-lbl">Revenus</div>
+      <div class="kpi-val" id="finRev">0 €</div>
     </div>
-    <div class="freste"><div class="fl">Il vous reste</div><div class="fa" id="finReste">0 €</div></div>
+    <div class="fin-kpi kpi-out">
+      <div class="kpi-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/><polyline points="17 18 23 18 23 12"/></svg></div>
+      <div class="kpi-lbl">Sorties</div>
+      <div class="kpi-val" id="finOut">0 €</div>
+    </div>
+  </div>
+  <div class="fin-kpi-reste">
+    <div><div class="kpi-lbl">Il vous reste</div></div>
+    <div class="fa" id="finReste">0 €</div>
   </div>
   <div class="sl"><span>📊 Analyse</span></div>
   <div class="chart-ins" id="chartIns">Renseignez salaires et charges pour voir l'analyse.</div>
@@ -384,7 +456,8 @@ ul{list-style:none;display:flex;flex-direction:column;gap:6px}
 </div>
 
 <nav>
-<button class="tab active" data-tab="cuisine" onclick="go('cuisine')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11V3h4v8M3 11a7 7 0 0 0 14 0M17 2h1a3 3 0 0 1 3 3v6"/><path d="M5 3v8M7 3v8M12 22v-9"/></svg>Cuisine</button>
+<button class="tab active" data-tab="accueil" onclick="go('accueil')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Accueil</button>
+<button class="tab" data-tab="cuisine" onclick="go('cuisine')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11V3h4v8M3 11a7 7 0 0 0 14 0M17 2h1a3 3 0 0 1 3 3v6"/><path d="M5 3v8M7 3v8M12 22v-9"/></svg>Cuisine</button>
 <button class="tab" data-tab="taches" onclick="go('taches')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m9 11 3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Tâches</button>
 <button class="tab" data-tab="planning" onclick="go('planning')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Planning</button>
 <button class="tab" data-tab="finances" onclick="go('finances')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20M6 15h4M14 15h4"/></svg>Finances</button>
@@ -581,7 +654,36 @@ async function loadAll(){
   if(ch){state.chien=ch;if(!Array.isArray(state.chien.rdv))state.chien.rdv=[];if(!Array.isArray(state.chien.rappels))state.chien.rappels=[];}
   if(inv)state.inventaire=inv;
 }
-function renderAll(){renderNames();renderCourses();renderTaches();renderPlanning();renderAgenda();renderMenuGrid();renderFinances();renderChien();renderInventaire();renderEquite();}
+function renderAll(){renderNames();renderCourses();renderTaches();renderPlanning();renderAgenda();renderMenuGrid();renderFinances();renderChien();renderInventaire();renderEquite();renderAccueil();}
+function renderAccueil(){
+  const now=new Date(),h=now.getHours();
+  const gr=h<5?'Bonne nuit':h<12?'Bonjour':h<18?'Bel après-midi':'Bonsoir';
+  const na=state.names.a||'Vous',nb=state.names.b||'';
+  const grEl=document.getElementById('accGreeting');
+  if(grEl)grEl.textContent=gr+', '+na+(nb?' & '+nb:'')+'  👋';
+  const avA=document.getElementById('avA'),avB=document.getElementById('avB');
+  if(avA)avA.textContent=(na||'A')[0].toUpperCase();
+  if(avB)avB.textContent=(nb||'N')[0].toUpperCase();
+  const dateEl=document.getElementById('accDate');
+  if(dateEl){const s=now.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});dateEl.textContent=s.charAt(0).toUpperCase()+s.slice(1);}
+  const todayISO=iso(now);
+  const sorted=[...(state.agenda||[])].sort((a,b)=>a.date.localeCompare(b.date));
+  const next=sorted.find(e=>e.date>=todayISO);
+  const vEl=document.getElementById('accEventVal'),sEl2=document.getElementById('accEventSub');
+  if(next&&vEl&&sEl2){const d=new Date(next.date+'T00:00:00'),t2=new Date();t2.setHours(0,0,0,0);const diff=Math.round((d-t2)/86400000);const when=diff===0?"Aujourd'hui":diff===1?'Demain':`Dans ${diff} j`;vEl.textContent=next.title;sEl2.textContent=when;}else{if(vEl)vEl.textContent='Aucun';if(sEl2)sEl2.textContent='';}
+  const pending=(state.taches||[]).filter(t=>!t.done).length;
+  const tv=document.getElementById('accTachesVal'),ts2=document.getElementById('accTachesSub');
+  if(tv)tv.textContent=pending;if(ts2)ts2.textContent=pending===0?'tout est fait !':'en attente';
+  const{reste}=calcFin();
+  const rv=document.getElementById('accResteVal'),rs=document.getElementById('accResteSub'),rc=document.getElementById('accResteCard');
+  if(rv)rv.textContent=(reste<0?'− ':'')+fE(Math.abs(reste));
+  if(rs)rs.textContent=reste>=0?'budget disponible':'dépassement';
+  if(rc){const base='acc-card full ';rc.className=base+(reste>=0?'acc-green':'acc-red');}
+  const dts=wdates(0);
+  const ti=dts.findIndex(d=>iso(d)===todayISO);
+  const planEl=document.getElementById('accPlanCard');
+  if(planEl){if(ti>=0){const shA=effShift(todayISO,'a',ti),shB=effShift(todayISO,'b',ti);const st=sh=>sh?(sh.type==='repos'?'Repos':(sh.label||sh.type)+(sh.start?' · '+sh.start+'–'+sh.end:'')):'—';planEl.innerHTML=`<div class="acc-plan-row"><span class="acc-plan-who" style="color:var(--pa)">${esc(state.names.a)}</span><span class="acc-plan-sh">${esc(st(shA))}</span></div><div class="acc-plan-row"><span class="acc-plan-who" style="color:var(--pb)">${esc(state.names.b)}</span><span class="acc-plan-sh">${esc(st(shB))}</span></div>`;}else{planEl.innerHTML='<div class="acc-plan-row"><span style="color:var(--ins);font-size:13px">Planning de cette semaine non configuré</span></div>';}}
+}
 
 /* ── TOAST ── */
 function showToast(msg){const t=document.createElement('div');t.className='toast';t.textContent=msg;document.body.appendChild(t);setTimeout(()=>t.classList.add('show'),10);setTimeout(()=>{t.classList.remove('show');setTimeout(()=>t.remove(),300)},3000)}
@@ -683,7 +785,7 @@ function renderInventaire(){
   el.innerHTML=sorted.map(i=>{const isLow=i.qty<=i.min;return`<div class="inv-item ${isLow?'low':''}"><div><div class="inv-name">${esc(i.name)}</div><span class="cat-chip ${CAT_CSS[i.cat]||'cat-autres'}">${CAT_LABELS[i.cat]||'📦 Autres'}</span></div>${isLow?'<span class="low-badge">⚠️ Racheter</span>':''}<div class="inv-qty"><button class="qbtn" onclick="changeQty('${i.id}',-1)">−</button><span class="inv-num">${i.qty}</span>${i.unit?`<span class="inv-unit">${esc(i.unit)}</span>`:''}<button class="qbtn" onclick="changeQty('${i.id}',1)">+</button></div><button class="del" onclick="delInv('${i.id}')">✕</button></div>`}).join('')
 }
 
-function go(tab){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));document.getElementById('p-'+tab).classList.add('active');document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===tab));if(tab==='finances')setTimeout(renderCharts,100)}
+function go(tab){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));document.getElementById('p-'+tab).classList.add('active');document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===tab));if(tab==='finances')setTimeout(renderCharts,100);if(tab==='accueil')renderAccueil();}
 function openInstall(){document.getElementById('installModal').classList.add('on')}
 function openNames(){document.getElementById('inA').value=state.names.a;document.getElementById('inB').value=state.names.b;document.getElementById('namesModal').classList.add('on')}
 async function saveNames(){state.names.a=document.getElementById('inA').value.trim()||'Moi';state.names.b=document.getElementById('inB').value.trim()||'Mon amour';document.getElementById('namesModal').classList.remove('on');renderNames();await sv(KEYS.names,state.names)}

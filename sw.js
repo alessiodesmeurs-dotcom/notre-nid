@@ -1,5 +1,5 @@
 /* Service Worker — Notre Nid */
-const CACHE = 'notre-nid-v3';
+const CACHE = 'notre-nid-v4';
 const SHELL = ['/', '/index.html', '/manifest.json', '/icon.svg',
   'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js',
   'https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700&display=swap'];

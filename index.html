@@ -271,6 +271,58 @@ ul{list-style:none;display:flex;flex-direction:column;gap:6px}
 .acc-plan-row+.acc-plan-row{border-top:1px solid var(--border)}
 .acc-plan-who{font-size:12px;font-weight:700;min-width:70px}
 .acc-plan-sh{font-size:13px;font-weight:600;color:var(--ink);text-align:right}
+/* EMMÉNAGEMENT */
+.em-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.em-count{background:#fff;border:1px solid var(--border);border-radius:16px;padding:16px 14px}
+.em-count-lbl{font-size:11px;font-weight:600;color:var(--ins);margin-bottom:6px}
+.em-count-days{font-size:26px;font-weight:800;letter-spacing:-.02em;line-height:1.1;margin-bottom:6px}
+.em-count input[type=date]{font-size:11px;color:var(--ins);background:none;border:none;outline:none;padding:0;width:100%;font-family:inherit}
+.em-budget{background:#fff;border:1px solid var(--border);border-radius:16px;padding:16px;margin-bottom:14px}
+.em-budget-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.em-budget-lbl{font-size:13px;font-weight:600}
+.em-budget-done{font-size:12px;color:var(--ins)}
+.em-budget-nums{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:8px}
+.em-budget-total{font-size:24px;font-weight:700;letter-spacing:-.02em}
+.em-budget-sub{font-size:11px;color:var(--ins);margin-top:2px}
+.em-budget-rest{font-size:13px;font-weight:600;color:var(--acc)}
+.em-bar-wrap{background:var(--border);border-radius:6px;height:6px;overflow:hidden}
+.em-bar-fill{height:100%;background:var(--acc);border-radius:6px;transition:.4s}
+.emcv{display:none}.emcv.active{display:block}
+.em-card{background:#fff;border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:8px}
+.em-card-row{display:flex;align-items:center;gap:10px;padding:12px 14px;cursor:pointer;user-select:none}
+.em-card-ico{width:42px;height:42px;border-radius:11px;background:var(--al);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.em-card-info{flex:1;min-width:0}
+.em-card-name{font-size:14px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.em-card-meta{font-size:11px;color:var(--ins);margin-top:2px}
+.em-status{font-size:10.5px;font-weight:700;padding:4px 10px;border-radius:20px;cursor:pointer;white-space:nowrap;flex-shrink:0;border:none;font-family:inherit;transition:.15s}
+.em-status.prevoir{background:#f3f4f6;color:#4b5563}
+.em-status.repere{background:var(--al);color:#065f46}
+.em-status.commande{background:#a7f3d0;color:#065f46}
+.em-status.livre{background:#065f46;color:#fff}
+.em-card-chev{color:var(--ins);font-size:14px;transition:.2s;flex-shrink:0;font-style:normal}
+.em-card-chev.open{transform:rotate(90deg)}
+.em-detail{padding:12px 14px 14px;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:10px}
+.em-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--ins);display:block;margin-bottom:4px}
+.em-inp{width:100%;font-size:13px;background:var(--sf);border:1.5px solid var(--border);border-radius:8px;padding:8px 10px;outline:none;font-family:inherit;color:var(--ink);transition:.15s}
+.em-inp:focus{border-color:var(--acc)}
+.em-r2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.em-del{font-size:12px;color:var(--ins);background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:4px;padding:4px 0;font-family:inherit;transition:.15s}
+.em-del:hover{color:var(--red)}
+.em-add-btn{width:100%;padding:12px;background:var(--sf);color:var(--acc);border:1.5px dashed var(--am);border-radius:10px;font-family:inherit;font-size:13.5px;font-weight:600;cursor:pointer;transition:.15s;margin-top:4px}
+.em-add-btn:hover{background:var(--al)}
+.em-timeline{background:#fff;border:1px solid var(--border);border-radius:14px;padding:16px}
+.em-tl-row{display:flex;gap:12px;padding-bottom:16px;position:relative}
+.em-tl-row:last-child{padding-bottom:0}
+.em-tl-line{display:flex;flex-direction:column;align-items:center;flex-shrink:0;width:10px}
+.em-tl-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;border:2.5px solid #fff;box-shadow:0 0 0 1.5px #d1d5db}
+.em-tl-row:not(:last-child) .em-tl-line::after{content:'';flex:1;width:1px;background:var(--border);margin-top:3px;min-height:12px}
+.em-tl-dot.prevoir{background:#d1d5db}.em-tl-dot.repere{background:#6ee7b7}.em-tl-dot.commande{background:#10b981}.em-tl-dot.livre{background:#065f46;box-shadow:0 0 0 1.5px #065f46}
+.em-tl-dot.move{background:var(--ink);box-shadow:0 0 0 1.5px var(--ink)}.em-tl-dot.dog{background:var(--acc);box-shadow:0 0 0 1.5px var(--acc)}
+.em-tl-body{flex:1}
+.em-tl-head{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.em-tl-label{font-size:13px;font-weight:600;color:var(--ink)}.em-tl-label.milestone{font-weight:700}
+.em-tl-when{font-size:11px;color:var(--ins);white-space:nowrap;flex-shrink:0}
+.em-tl-date{font-size:11px;color:var(--ins);margin-top:2px}
 /* PRINT (export PDF via impression) */
 @media print{
   nav,.hbtn,.ba,.bo,.del,.ck,.cksq,.modal-bg,.sync-bar,.pbar,.seg,.sl button,
@@ -438,6 +490,45 @@ ul{list-style:none;display:flex;flex-direction:column;gap:6px}
   <div class="inv-grid" id="invList"></div>
 </section>
 
+<!-- EMMÉNAGEMENT -->
+<section class="panel" id="p-emmenagement">
+  <div class="ph"><h2>Emménagement</h2><p>Achats mobilier, budget et préparatifs chien.</p></div>
+  <div class="em-grid">
+    <div class="em-count">
+      <div class="em-count-lbl">🚛 Déménagement</div>
+      <div class="em-count-days" id="emMoveDays">—</div>
+      <input type="date" id="emMovingDate" onchange="saveEmDates()"/>
+    </div>
+    <div class="em-count">
+      <div class="em-count-lbl">🐕 Chien</div>
+      <div class="em-count-days" id="emDogDays">—</div>
+      <input type="date" id="emDogDate" onchange="saveEmDates()"/>
+    </div>
+  </div>
+  <div class="em-budget">
+    <div class="em-budget-top">
+      <span class="em-budget-lbl">💰 Budget mobilier</span>
+      <span class="em-budget-done" id="emDoneCount">0/0 reçus</span>
+    </div>
+    <div class="em-budget-nums">
+      <div><div class="em-budget-total" id="emSpent">0 €</div><div class="em-budget-sub" id="emBudgetSub">dépensé sur 0 € prévus</div></div>
+      <div class="em-budget-rest" id="emBudgetRest">0 € restant</div>
+    </div>
+    <div class="em-bar-wrap"><div class="em-bar-fill" id="emBudgetBar" style="width:0%"></div></div>
+  </div>
+  <div class="seg" id="emSeg"><button class="sel" onclick="setEmTab('achats')">Achats</button><button onclick="setEmTab('calendrier')">Calendrier</button><button onclick="setEmTab('chien')">Chien</button></div>
+  <div class="emcv active" id="em-achats">
+    <div id="emAchatsList"></div>
+    <button class="em-add-btn" onclick="addEmItem()">+ Ajouter un achat</button>
+  </div>
+  <div class="emcv" id="em-calendrier">
+    <div class="em-timeline" id="emTimelineEl"><div class="empty" style="padding:20px">Ajoute des dates à tes achats pour voir la frise.</div></div>
+  </div>
+  <div class="emcv" id="em-chien">
+    <div style="background:#fff;border:1px solid var(--border);border-radius:14px;padding:16px" id="emChienCard"></div>
+  </div>
+</section>
+
 <!-- AGENDA -->
 <section class="panel" id="p-agenda">
   <div class="ph"><h2>Agenda</h2><p>Rendez-vous et événements à venir.</p></div>
@@ -464,6 +555,7 @@ ul{list-style:none;display:flex;flex-direction:column;gap:6px}
 <button class="tab" data-tab="chien" onclick="go('chien')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M10 5.172C10 3.782 8.423 2.679 6.5 3c-2.823.47-4.113 6.006-4 7 .08.703 1.725 1.722 3.656 2.115M14 5.172C14 3.782 15.577 2.679 17.5 3c2.823.47 4.113 6.006-4 7-.08.703-1.725 1.722-3.656 2.115"/><path d="M8 14v.5A3.5 3.5 0 0 0 11.5 18v0a3.5 3.5 0 0 0 3.5-3.5V14"/><path d="M6.5 13.5c1.333.667 2.833.667 4.5 0s3.167.667 4.5 0"/></svg>Chien</button>
 <button class="tab" data-tab="inventaire" onclick="go('inventaire')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Stock</button>
 <button class="tab" data-tab="agenda" onclick="go('agenda')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Agenda</button>
+<button class="tab" data-tab="emmenagement" onclick="go('emmenagement')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="13" height="11" rx="1"/><path d="M15 7h3l3 4v4h-6V7z"/><circle cx="6" cy="19" r="2"/><circle cx="19" cy="19" r="2"/></svg>Emménag.</button>
 </nav>
 
 <!-- MODALS -->
@@ -626,7 +718,7 @@ if('serviceWorker' in navigator){
 }
 
 /* ── ÉTAT ── */
-const KEYS={names:'nid:names',courses:'nid:courses2',taches:'nid:taches',agenda:'nid:agenda',planning:'nid:planning',templates:'nid:templates',menus:'nid:menus2',finances:'nid:finances2',chien:'nid:chien',inventaire:'nid:inventaire'};
+const KEYS={names:'nid:names',courses:'nid:courses2',taches:'nid:taches',agenda:'nid:agenda',planning:'nid:planning',templates:'nid:templates',menus:'nid:menus2',finances:'nid:finances2',chien:'nid:chien',inventaire:'nid:inventaire',emmenagement:'nid:emmenagement'};
 let state={names:{a:'Moi',b:'Mon amour'},courses:[],taches:[],agenda:[],planning:{},templates:{a:{mode:'libre'},b:{mode:'libre'}},menus:{},finances:{salaire_a:0,salaire_b:0,charges:[],monthly:{}},chien:{nom:'Prénom du chien',rdv:[],rappels:[]},inventaire:[]};
 let wOff=0,mwOff=0,finMon=new Date().toISOString().slice(0,7);
 let _charts={};
@@ -648,13 +740,14 @@ function mon(off){const d=new Date();d.setHours(0,0,0,0);d.setDate(d.getDate()-(
 function wdates(off){const m=mon(off);return Array.from({length:7},(_,i)=>{const d=new Date(m);d.setDate(m.getDate()+i);return d})}
 
 async function loadAll(){
-  const[n,c,t,a,pl,tpl,mn,fin,ch,inv]=await Promise.all([load(KEYS.names),load(KEYS.courses),load(KEYS.taches),load(KEYS.agenda),load(KEYS.planning),load(KEYS.templates),load(KEYS.menus),load(KEYS.finances),load(KEYS.chien),load(KEYS.inventaire)]);
+  const[n,c,t,a,pl,tpl,mn,fin,ch,inv,em]=await Promise.all([load(KEYS.names),load(KEYS.courses),load(KEYS.taches),load(KEYS.agenda),load(KEYS.planning),load(KEYS.templates),load(KEYS.menus),load(KEYS.finances),load(KEYS.chien),load(KEYS.inventaire),load(KEYS.emmenagement)]);
   if(n)state.names=n;if(c)state.courses=c;if(t)state.taches=t;if(a)state.agenda=a;if(pl)state.planning=pl;if(tpl)state.templates=tpl;if(mn)state.menus=mn;
   if(fin){state.finances=fin;if(!Array.isArray(state.finances.charges))state.finances.charges=[];if(!state.finances.monthly)state.finances.monthly={};}
   if(ch){state.chien=ch;if(!Array.isArray(state.chien.rdv))state.chien.rdv=[];if(!Array.isArray(state.chien.rappels))state.chien.rappels=[];}
   if(inv)state.inventaire=inv;
+  if(em){state.emmenagement=em;if(!Array.isArray(state.emmenagement.items))state.emmenagement.items=[];if(!Array.isArray(state.emmenagement.dogTasks))state.emmenagement.dogTasks=[];}
 }
-function renderAll(){renderNames();renderCourses();renderTaches();renderPlanning();renderAgenda();renderMenuGrid();renderFinances();renderChien();renderInventaire();renderEquite();renderAccueil();}
+function renderAll(){renderNames();renderCourses();renderTaches();renderPlanning();renderAgenda();renderMenuGrid();renderFinances();renderChien();renderInventaire();renderEquite();renderAccueil();renderEmmenagement();}
 function renderAccueil(){
   const now=new Date(),h=now.getHours();
   const gr=h<5?'Bonne nuit':h<12?'Bonjour':h<18?'Bel après-midi':'Bonsoir';
@@ -785,7 +878,7 @@ function renderInventaire(){
   el.innerHTML=sorted.map(i=>{const isLow=i.qty<=i.min;return`<div class="inv-item ${isLow?'low':''}"><div><div class="inv-name">${esc(i.name)}</div><span class="cat-chip ${CAT_CSS[i.cat]||'cat-autres'}">${CAT_LABELS[i.cat]||'📦 Autres'}</span></div>${isLow?'<span class="low-badge">⚠️ Racheter</span>':''}<div class="inv-qty"><button class="qbtn" onclick="changeQty('${i.id}',-1)">−</button><span class="inv-num">${i.qty}</span>${i.unit?`<span class="inv-unit">${esc(i.unit)}</span>`:''}<button class="qbtn" onclick="changeQty('${i.id}',1)">+</button></div><button class="del" onclick="delInv('${i.id}')">✕</button></div>`}).join('')
 }
 
-function go(tab){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));document.getElementById('p-'+tab).classList.add('active');document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===tab));if(tab==='finances')setTimeout(renderCharts,100);if(tab==='accueil')renderAccueil();}
+function go(tab){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));document.getElementById('p-'+tab).classList.add('active');document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===tab));if(tab==='finances')setTimeout(renderCharts,100);if(tab==='accueil')renderAccueil();if(tab==='emmenagement')renderEmmenagement();}
 function openInstall(){document.getElementById('installModal').classList.add('on')}
 function openNames(){document.getElementById('inA').value=state.names.a;document.getElementById('inB').value=state.names.b;document.getElementById('namesModal').classList.add('on')}
 async function saveNames(){state.names.a=document.getElementById('inA').value.trim()||'Moi';state.names.b=document.getElementById('inB').value.trim()||'Mon amour';document.getElementById('namesModal').classList.remove('on');renderNames();await sv(KEYS.names,state.names)}
@@ -1023,6 +1116,126 @@ function addScannedDeps(){
   renderFinances();sv(KEYS.finances,state.finances);
   showToast(`✓ ${sel.length} dépense${sel.length>1?'s':''} ajoutée${sel.length>1?'s':''}`);
 }
+
+/* ── EMMÉNAGEMENT ── */
+const EM_STATUS=[{key:'prevoir',label:'À prévoir'},{key:'repere',label:'Repéré'},{key:'commande',label:'Commandé'},{key:'livre',label:'Livré'}];
+let _emOpenItems=new Set(),_emTab='achats';
+
+function emDefaultItems(){return[{id:uid(),name:'Lit',emoji:'🛏️',budget:600,spent:0,status:'prevoir',date:'2026-07-20',store:'',note:'Essentiel jour J'},{id:uid(),name:'Frigo',emoji:'🧊',budget:500,spent:0,status:'prevoir',date:'2026-07-20',store:'',note:'Essentiel jour J'},{id:uid(),name:'Canapé',emoji:'🛋️',budget:800,spent:0,status:'prevoir',date:'2026-08-10',store:'',note:'Délai de livraison à vérifier'},{id:uid(),name:'Table',emoji:'🪵',budget:300,spent:0,status:'prevoir',date:'2026-08-20',store:'',note:''},{id:uid(),name:'Chaises',emoji:'🪑',budget:200,spent:0,status:'prevoir',date:'2026-08-20',store:'',note:'Lot de 4'},{id:uid(),name:'Table basse',emoji:'☕',budget:150,spent:0,status:'prevoir',date:'2026-09-10',store:'',note:''}];}
+function emDefaultTasks(){return[{id:uid(),label:'Panier + coussin',done:false},{id:uid(),label:'Gamelles eau & croquettes',done:false},{id:uid(),label:'Croquettes du même éleveur',done:false},{id:uid(),label:'Premier rdv vétérinaire',done:false},{id:uid(),label:"Sécuriser l'appart (câbles, plantes)",done:false},{id:uid(),label:'Harnais, laisse, sacs',done:false}];}
+function getEm(){if(!state.emmenagement)state.emmenagement={movingDate:'2026-08-01',dogDate:'2026-09-28',items:emDefaultItems(),dogTasks:emDefaultTasks()};return state.emmenagement;}
+
+function daysUntil(s){if(!s)return null;const t=new Date();t.setHours(0,0,0,0);return Math.round((new Date(s+'T00:00:00')-t)/86400000);}
+function daysLabel(n){if(n===null)return '—';if(n>0)return 'J−'+n;if(n===0)return 'Jour J !';return 'Passé';}
+function fmtDateLong(s){if(!s)return '—';const d=new Date(s+'T00:00:00');return d.toLocaleDateString('fr-FR',{day:'numeric',month:'long'});}
+
+function setEmTab(t){_emTab=t;document.querySelectorAll('.emcv').forEach(el=>el.classList.toggle('active',el.id==='em-'+t));document.querySelectorAll('#emSeg button').forEach((b,i)=>b.classList.toggle('sel',['achats','calendrier','chien'][i]===t));if(t==='calendrier')renderEmCalendrier();if(t==='chien')renderEmChien();}
+
+function renderEmmenagement(){
+  const em=getEm();
+  document.getElementById('emMovingDate').value=em.movingDate||'';
+  document.getElementById('emDogDate').value=em.dogDate||'';
+  const md=daysUntil(em.movingDate),dd=daysUntil(em.dogDate);
+  document.getElementById('emMoveDays').textContent=daysLabel(md);
+  document.getElementById('emDogDays').textContent=daysLabel(dd);
+  const budget=em.items.reduce((s,i)=>s+(+i.budget||0),0);
+  const spent=em.items.reduce((s,i)=>s+(+i.spent||0),0);
+  const done=em.items.filter(i=>i.status==='livre').length;
+  document.getElementById('emDoneCount').textContent=`${done}/${em.items.length} reçus`;
+  document.getElementById('emSpent').textContent=fE(spent);
+  document.getElementById('emBudgetSub').textContent=`dépensé sur ${fE(budget)} prévus`;
+  document.getElementById('emBudgetRest').textContent=fE(Math.abs(budget-spent))+(spent>budget?' de dépassement':' restant');
+  document.getElementById('emBudgetRest').style.color=spent>budget?'var(--red)':'var(--acc)';
+  document.getElementById('emBudgetBar').style.width=(budget?Math.min(100,Math.round(spent/budget*100)):0)+'%';
+  renderEmAchats();
+  if(_emTab==='calendrier')renderEmCalendrier();
+  if(_emTab==='chien')renderEmChien();
+}
+
+function renderEmAchats(){
+  const em=getEm();
+  const el=document.getElementById('emAchatsList');
+  if(!em.items.length){el.innerHTML=empt('🛋️','Ajoutez vos premiers achats !');return;}
+  el.innerHTML=em.items.map(it=>{
+    const st=EM_STATUS.find(s=>s.key===it.status)||EM_STATUS[0];
+    const open=_emOpenItems.has(it.id);
+    const meta=[(it.budget?fE(+it.budget):''), (it.date?fmtDateLong(it.date):'')].filter(Boolean).join(' · ');
+    const emojis=['🛋️','🛏️','🧊','🪑','🪵','☕','🪟','🖥️','📺','💡','🛁','🪴','📦'];
+    return `<div class="em-card">
+      <div class="em-card-row" onclick="toggleEmItem('${it.id}')">
+        <div class="em-card-ico">${esc(it.emoji||'📦')}</div>
+        <div class="em-card-info"><div class="em-card-name">${esc(it.name)}</div>${meta?`<div class="em-card-meta">${meta}</div>`:''}</div>
+        <button class="em-status ${it.status}" onclick="event.stopPropagation();cycleEmStatus('${it.id}')">${esc(st.label)}</button>
+        <i class="em-card-chev ${open?'open':''}">›</i>
+      </div>
+      ${open?`<div class="em-detail">
+        <div><span class="em-lbl">Nom</span><input class="em-inp" value="${esc(it.name)}" onchange="updateEmItem('${it.id}','name',this.value)"/></div>
+        <div class="em-r2">
+          <div><span class="em-lbl">Budget (€)</span><input class="em-inp" type="text" inputmode="decimal" value="${it.budget||''}" onchange="updateEmItem('${it.id}','budget',parseAmt(this.value))"/></div>
+          <div><span class="em-lbl">Dépensé (€)</span><input class="em-inp" type="text" inputmode="decimal" value="${it.spent||''}" onchange="updateEmItem('${it.id}','spent',parseAmt(this.value))"/></div>
+        </div>
+        <div class="em-r2">
+          <div><span class="em-lbl">Date cible</span><input class="em-inp" type="date" value="${it.date||''}" onchange="updateEmItem('${it.id}','date',this.value)"/></div>
+          <div><span class="em-lbl">Magasin</span><input class="em-inp" value="${esc(it.store||'')}" placeholder="Ikea…" onchange="updateEmItem('${it.id}','store',this.value)"/></div>
+        </div>
+        <div><span class="em-lbl">Note</span><input class="em-inp" value="${esc(it.note||'')}" onchange="updateEmItem('${it.id}','note',this.value)"/></div>
+        <div><span class="em-lbl">Icône</span><div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:2px">${emojis.map(e=>`<button onclick="updateEmItem('${it.id}','emoji','${e}')" style="font-size:18px;background:${it.emoji===e?'var(--al)':'var(--sf)'};border:1.5px solid ${it.emoji===e?'var(--acc)':'var(--border)'};border-radius:8px;padding:4px 7px;cursor:pointer;line-height:1">${e}</button>`).join('')}</div></div>
+        <button class="em-del" onclick="delEmItem('${it.id}')">✕ Supprimer cet achat</button>
+      </div>`:''}
+    </div>`;
+  }).join('');
+}
+
+function renderEmCalendrier(){
+  const em=getEm();
+  const evts=[];
+  em.items.filter(i=>i.date).forEach(i=>evts.push({date:i.date,label:'Acheter : '+i.name,type:'item',status:i.status}));
+  if(em.movingDate)evts.push({date:em.movingDate,label:'🚛 Jour du déménagement',type:'move'});
+  if(em.dogDate)evts.push({date:em.dogDate,label:'🐕 Arrivée du chien',type:'dog'});
+  evts.sort((a,b)=>a.date.localeCompare(b.date));
+  const el=document.getElementById('emTimelineEl');
+  if(!evts.length){el.innerHTML=empt('📅','Ajoute des dates à tes achats pour voir la frise.');return;}
+  el.innerHTML=evts.map((e,idx)=>{
+    const d=daysUntil(e.date);
+    const when=d===null?'':d>0?`J-${d}`:d===0?"Aujourd'hui":'Passé';
+    const dotClass=e.type==='move'?'move':e.type==='dog'?'dog':(e.status||'prevoir');
+    return `<div class="em-tl-row">
+      <div class="em-tl-line"><div class="em-tl-dot ${dotClass}"></div></div>
+      <div class="em-tl-body"><div class="em-tl-head"><span class="em-tl-label${e.type!=='item'?' milestone':''}">${esc(e.label)}</span><span class="em-tl-when">${when}</span></div><div class="em-tl-date">${fmtDateLong(e.date)}</div></div>
+    </div>`;
+  }).join('');
+}
+
+function renderEmChien(){
+  const em=getEm();
+  const el=document.getElementById('emChienCard');
+  const d=daysUntil(em.dogDate);
+  const doneTasks=em.dogTasks.filter(t=>t.done).length;
+  el.innerHTML=`<div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--border)">
+    <div style="width:44px;height:44px;border-radius:12px;background:var(--al);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">🐕</div>
+    <div style="flex:1"><div style="font-size:13px;font-weight:600">Arrivée prévue</div><input type="date" value="${em.dogDate||''}" onchange="getEm().dogDate=this.value;sv(KEYS.emmenagement,state.emmenagement);renderEmmenagement()" style="font-size:11.5px;color:var(--ins);background:none;border:none;outline:none;padding:0;margin-top:2px;font-family:inherit;width:100%"/></div>
+    ${d!==null?`<span style="font-size:15px;font-weight:700;color:var(--acc)">${daysLabel(d)}</span>`:''}
+  </div>
+  <div class="sl" style="margin-top:0"><span>Préparatifs (${doneTasks}/${em.dogTasks.length})</span></div>
+  <div style="display:flex;flex-direction:column;gap:2px;margin-bottom:12px">
+    ${em.dogTasks.map(t=>`<div style="display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid var(--border)">
+      <div class="ck ${t.done?'on':''}" onclick="toggleEmDogTask('${t.id}')"><svg viewBox="0 0 24 24" fill="none"><path d="m5 13 4 4L19 7"/></svg></div>
+      <span style="flex:1;font-size:13px;${t.done?'text-decoration:line-through;color:var(--ins)':''}">${esc(t.label)}</span>
+      <button class="del" onclick="delEmDogTask('${t.id}')">✕</button>
+    </div>`).join('')}
+  </div>
+  <div class="addbar" style="margin-bottom:0"><input id="emDogTaskInput" placeholder="Ajouter un préparatif…" onkeydown="if(event.key==='Enter')addEmDogTask()"/><button class="ba" onclick="addEmDogTask()">+</button></div>`;
+}
+
+function cycleEmStatus(id){const em=getEm();const it=em.items.find(i=>i.id===id);if(!it)return;const idx=EM_STATUS.findIndex(s=>s.key===it.status);it.status=EM_STATUS[(idx+1)%EM_STATUS.length].key;sv(KEYS.emmenagement,state.emmenagement);renderEmmenagement();}
+function toggleEmItem(id){if(_emOpenItems.has(id))_emOpenItems.delete(id);else _emOpenItems.add(id);renderEmAchats();}
+function updateEmItem(id,field,value){const em=getEm();const it=em.items.find(i=>i.id===id);if(!it)return;it[field]=value;sv(KEYS.emmenagement,state.emmenagement);renderEmmenagement();}
+function addEmItem(){const em=getEm();const id=uid();em.items.push({id,name:'Nouvel achat',emoji:'📦',budget:0,spent:0,status:'prevoir',date:'',store:'',note:''});_emOpenItems.add(id);sv(KEYS.emmenagement,state.emmenagement);renderEmmenagement();}
+function delEmItem(id){const em=getEm();em.items=em.items.filter(i=>i.id!==id);_emOpenItems.delete(id);sv(KEYS.emmenagement,state.emmenagement);renderEmmenagement();}
+function addEmDogTask(){const el=document.getElementById('emDogTaskInput');if(!el)return;const t=el.value.trim();if(!t)return;getEm().dogTasks.push({id:uid(),label:t,done:false});el.value='';sv(KEYS.emmenagement,state.emmenagement);renderEmChien();}
+function toggleEmDogTask(id){const t=getEm().dogTasks.find(t=>t.id===id);if(t)t.done=!t.done;sv(KEYS.emmenagement,state.emmenagement);renderEmChien();}
+function delEmDogTask(id){getEm().dogTasks=getEm().dogTasks.filter(t=>t.id!==id);sv(KEYS.emmenagement,state.emmenagement);renderEmChien();}
+function saveEmDates(){const em=getEm();em.movingDate=document.getElementById('emMovingDate').value;em.dogDate=document.getElementById('emDogDate').value;sv(KEYS.emmenagement,state.emmenagement);renderEmmenagement();}
 
 (async function init(){
   requestNotifPermission();
